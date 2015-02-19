@@ -1,17 +1,37 @@
-window.dominator =
+window.Dominator =
     (function () {
-
         var CALLBACK_DELAY = 20;
+        var debug, dom, domGetter, ready, timeouts;
+        var dominatorInstance;
+        var Dominator = function () {
+            init();
+        };
 
-        var debug = false;
-        var dom = {};
-        var domGetter = {};
-        var ready = false;
+        Dominator.getInstance = function (restart) {
+            if (!dominatorInstance || restart) {
+                dominatorInstance = new Dominator();
+            }
+            return dominatorInstance;
+        };
 
-        window.addEventListener('load', function () {
-            log('window loaded');
-            ready = true;
-        });
+        function init() {
+            clearTimeouts();
+            debug = false;
+            dom = {};
+            domGetter = {};
+            ready = false;
+            window.addEventListener('load', function () {
+                log('window loaded');
+                ready = true;
+            });
+        }
+
+        function clearTimeouts() {
+            if (timeouts) {
+                timeouts.forEach(window.clearTimeout);
+            }
+            timeouts = [];
+        }
 
         function setDomId(id) {
             log('setDomId', id);
@@ -30,8 +50,9 @@ window.dominator =
         }
 
         function initIds(ids) {
-            log('initIds', ids);
-            ids.forEach(initId);
+            var actualIds = ids instanceof Array ? ids : [].slice.call(arguments);
+            log('initIds', actualIds);
+            actualIds.forEach(initId);
         }
 
         function onReady(param1, param2) {
@@ -52,11 +73,11 @@ window.dominator =
             }
         }
 
-        function runCallback(callback){
-            if(ready){
+        function runCallback(callback) {
+            if (ready) {
                 callback(domGetter);
             } else {
-                setTimeout(runCallback.bind(null, callback), CALLBACK_DELAY);
+                timeouts.push(setTimeout(runCallback.bind(null, callback), CALLBACK_DELAY));
             }
         }
 
@@ -66,11 +87,13 @@ window.dominator =
             }
         }
 
-        return {
+        Dominator.prototype = {
             /**
              * if window is already loaded, use this property for sync access to DOM elements
              */
-            dom: domGetter,
+            get dom() {
+                return domGetter;
+            },
             /**
              * init a DOM element with given id
              *
@@ -80,7 +103,7 @@ window.dominator =
             /**
              * init multiple DOM elements with given ids
              *
-             * @param {string[]} ids
+             * @param {string[]|...string} ids
              */
             initIds: initIds,
             /**
@@ -99,5 +122,7 @@ window.dominator =
                 debug = isDebug;
             }
         };
+
+        return Dominator;
     })();
 

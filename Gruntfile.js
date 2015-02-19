@@ -1,5 +1,4 @@
 var grunt = require('grunt');
-grunt.loadNpmTasks('grunt-contrib-uglify');
 grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
@@ -10,7 +9,16 @@ grunt.initConfig({
             src: 'src/<%= pkg.name %>.js',
             dest: 'build/<%= pkg.name %>.min.js'
         }
+    },
+    karma: {
+        unit: {
+            configFile: 'karma.conf.js'
+        }
     }
 });
 
-grunt.registerTask('all', ['uglify']);
+
+grunt.loadNpmTasks('grunt-contrib-uglify');
+grunt.loadNpmTasks('grunt-karma');
+
+grunt.registerTask('all', ['uglify', 'karma']);
