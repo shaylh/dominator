@@ -1,6 +1,8 @@
 {
-  "name": "dominator",
-  "version": "0.0.1",
+  "name": "DOMinator",
+  "version": "1.0.0",
+  "description": "DOMinator gives you easy and worry-less access to DOM elements, without having to declare each and every one of them individually.",
+  "author": "Shai Lachmanovich <lachmanovich@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/shaylh/dominator.git"
@@ -15,5 +17,6 @@
     "karma-jasmine": "^0.3.5",
     "karma-requirejs": "^0.2.2",
     "requirejs": "^2.1.16"
-  }
+  },
+  "license": "APACHE2.0"
 }
