@@ -6,16 +6,16 @@ describe('dominator', function () {
 
     function loadWindow() {
         if (callbacks.load) {
+            windowLoaded = true;
             callbacks.load();
         }
-        windowLoaded = true;
     }
 
     function unloadWindow() {
         if (callbacks.unload) {
+            windowLoaded = false;
             callbacks.unload();
         }
-        windowLoaded = false;
     }
 
     beforeEach(function () {

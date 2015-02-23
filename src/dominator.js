@@ -1,8 +1,7 @@
 window.Dominator =
     (function () {
-        var CALLBACK_DELAY = 20;
 
-        var debug, dom, domGetter, ready, timeouts;
+        var debug, dom, domGetter, ready, callbacks;
         var dominatorInstance;
         var Dominator = function () {
             init();
@@ -16,26 +15,24 @@ window.Dominator =
         };
 
         function init() {
-            clearTimeouts();
             debug = false;
+            callbacks = [];
             dom = {};
             domGetter = {};
             ready = false;
-            window.addEventListener('load', function () {
-                log('window loaded');
-                ready = true;
+            window.addEventListener('load', setSiteReady);
+        }
+
+        function setSiteReady(){
+            log('setSiteReady');
+            ready = true;
+            callbacks.forEach(function(callback){
+                callback();
             });
         }
 
         function isReady(){
             return ready;
-        }
-
-        function clearTimeouts() {
-            if (timeouts) {
-                timeouts.forEach(window.clearTimeout);
-            }
-            timeouts = [];
         }
 
         function setDomId(id) {
@@ -82,7 +79,7 @@ window.Dominator =
             if (isReady()) {
                 callback(domGetter);
             } else {
-                timeouts.push(setTimeout(runCallback.bind(null, callback), CALLBACK_DELAY));
+                callbacks.push(runCallback.bind(null, callback));
             }
         }
 
