@@ -113,5 +113,17 @@ describe('dominator', function () {
             loadWindow();
         });
 
+        it('should support initializing new DOM elements on the fly', function(done){
+            dominator.onReady(function(dom){
+                var newDiv = document.createElement('div');
+                newDiv.setAttribute('id', 'div5');
+                document.body.appendChild(newDiv);
+                dominator.initId('div5');
+                expect(dom.div5).toEqual({id: 'mock_div5'});
+                done();
+            });
+            loadWindow();
+        });
+
     });
 });

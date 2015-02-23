@@ -19,6 +19,13 @@
         dominator.onReady(['div5', 'div6'], function (dom) {
             console.log(dom.div5, dominator.dom.div6);
         });
+        dominator.onReady(function(dom){
+            var newDiv = document.createElement('div');
+            newDiv.setAttribute('id', 'div7');
+            document.body.appendChild(newDiv);
+            dominator.initId('div7');
+            console.log(dom.div7, dominator.dom.div7);
+        });
 
     </script>
 </head>

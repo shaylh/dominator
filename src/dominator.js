@@ -1,6 +1,7 @@
 window.Dominator =
     (function () {
         var CALLBACK_DELAY = 20;
+
         var debug, dom, domGetter, ready, timeouts;
         var dominatorInstance;
         var Dominator = function () {
@@ -24,6 +25,10 @@ window.Dominator =
                 log('window loaded');
                 ready = true;
             });
+        }
+
+        function isReady(){
+            return ready;
         }
 
         function clearTimeouts() {
@@ -74,7 +79,7 @@ window.Dominator =
         }
 
         function runCallback(callback) {
-            if (ready) {
+            if (isReady()) {
                 callback(domGetter);
             } else {
                 timeouts.push(setTimeout(runCallback.bind(null, callback), CALLBACK_DELAY));
