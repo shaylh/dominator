@@ -22,4 +22,6 @@ grunt.loadNpmTasks('grunt-contrib-uglify');
 grunt.loadNpmTasks('grunt-karma');
 
 grunt.registerTask('default', ['uglify']);
+grunt.registerTask('test', ['karma']);
+grunt.registerTask('build', ['uglify']);
 grunt.registerTask('all', ['uglify', 'karma']);
