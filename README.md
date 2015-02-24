@@ -1,4 +1,4 @@
-DOMinatorJS
+DOMinator
 ========
 If you ever get tired of declaring DOM elements like that:
 ```javascript
