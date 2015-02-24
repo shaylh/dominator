@@ -1,7 +1,7 @@
 window.Dominator =
     (function () {
 
-        var debug, dom, domGetter, ready, callbacks;
+        var debug, domGetter, ready, callbacks;
         var dominatorInstance;
         var Dominator = function () {
             init();
@@ -17,7 +17,6 @@ window.Dominator =
         function init() {
             debug = false;
             callbacks = [];
-            dom = {};
             domGetter = {};
             ready = false;
             window.addEventListener('load', setSiteReady);
@@ -37,11 +36,11 @@ window.Dominator =
 
         function setDomId(id) {
             log('setDomId', id);
-            dom[id] = document.getElementById(id);
+            var node = document.getElementById(id);
             Object.defineProperty(domGetter, id, {
                 get: function () {
                     log('get', id);
-                    return dom[id];
+                    return node;
                 }
             });
         }
@@ -79,7 +78,7 @@ window.Dominator =
             if (isReady()) {
                 callback(domGetter);
             } else {
-                callbacks.push(runCallback.bind(null, callback));
+                callbacks.push(callback.bind(null, domGetter));
             }
         }
 
